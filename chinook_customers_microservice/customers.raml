@@ -1,0 +1,28 @@
+#%RAML 1.0
+title: chinook customers service
+baseUri: /
+version: v1
+
+types:
+  customer:
+    properties:
+      id: number
+      firstName: string
+      lastName: string
+
+resourceTypes:
+  GET:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type:<<item>>
+/customers:
+  type: { GET: { item: customer[] }}
+  description: customer service returns back all of customers
+  /id:
+    type: { GET: { item: customer }}
+/customers/search:
+  type: { POST: { item: customer [] }}
+
