@@ -1,0 +1,53 @@
+version: '2'
+
+services:
+  chinook_db:
+    container_name: chinookDb
+    build:
+      context: ./.docker
+      dockerfile: ./postgres.dockerfile
+    ports:
+      - "5433:5435"
+    networks:
+      - isolated_network
+#  membership_db:
+#    container_name: membershipDb
+#    build:
+#      context: ./.docker
+#      dockerfile: ./redis.dockerfile
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - isolated_network
+
+  movies_micro_service:
+    container_name: chinook_movies_service
+    build:
+      context: ./chinook_movies_microservice
+      dockerfile: ./movies.dockerfile
+    ports:
+      - "6100:4601"
+    volumes:
+      - ./chinook_movies_microservice:/movies_microservice
+    depends_on:
+      - chinook_db
+    networks:
+      - isolated_network
+
+  employees_micro_service:
+    container_name: chinook_employees_service
+    build:
+      context: ./chinook_employees_microservice
+      dockerfile: ./employees.dockerfile
+    ports:
+      - "6101:4602"
+    volumes:
+      - ./chinook_employees_microservice:/employees_microservice
+    depends_on:
+      - chinook_db
+    networks:
+      - isolated_network
+
+networks:
+  isolated_network:
+    driver: bridge
