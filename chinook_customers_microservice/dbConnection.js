@@ -1,5 +1,6 @@
 /* eslint-disable one-var */
-const massive = require('massive');
+const massive = require('massive'),
+    debug = require('debug')('cs');
 let mediator;
 const connector = (md) => {
     mediator = md;
@@ -7,7 +8,7 @@ const connector = (md) => {
 };
 const massiveConnector = (options) => {
     process.nextTick(() => {
-        console.log('connecting to database .... ');
+        debug('connecting to database .... ');
         massive({
             'host': options.pg_host,
             'port': options.pg_port,

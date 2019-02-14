@@ -18,10 +18,17 @@ resourceTypes:
           body:
             application/json:
               type:<<item>>
+  POST:
+    post:
+      response:
+        200:
+          body:
+            application/json:
+              type:<<item>>
 /customers:
   type: { GET: { item: customer[] }}
   description: customer service returns back all of customers
-  /id:
+  /{id}:
     type: { GET: { item: customer }}
 /customers/search:
   type: { POST: { item: customer [] }}

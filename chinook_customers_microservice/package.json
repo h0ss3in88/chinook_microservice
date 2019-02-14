@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "windowsDebugCustomers": "@powershell -Command $env:DEBUG='cs';./node_modules/.bin/nodemon ./src/index.js",
+    "start": "DEBUG='cs' ./node_modules/.bin/nodemon index.js",
+    "startProduction": "DEBUG='cs' node index.js",
+    "test": "./node_modules/.bin/mocha specs"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +27,7 @@
     "massive": "^5.7.4",
     "morgan": "^1.9.1",
     "response-time": "^2.3.2",
+    "nodemon": "^1.18.10",
     "validator": "^10.11.0"
   },
   "devDependencies": {
@@ -44,7 +48,7 @@
     "@types/validator": "^10.9.0",
     "eslint": "^5.13.0",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.9",
+    "nodemon": "^1.18.10",
     "sinon": "^7.2.3",
     "supertest": "^3.4.2"
   }
