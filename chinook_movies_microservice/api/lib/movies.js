@@ -7,12 +7,12 @@ module.exports = (options) => {
         throw new Error('there is no repository');
     }
     router.get('/movies', (req, res, next) => {
-        options.repo.getAllCustomers().then((result) => {
+        options.repo.getAllMovies().then((result) => {
             return res.status(status.OK).json(result);
         }).catch(next);
     });
     router.get('/movies/:id/actors', (req, res, next) => {
-        options.repo.getAllCustomers().then((result) => {
+        options.repo.getAllMovies().then((result) => {
             return res.status(status.OK).json(result);
         }).catch(next);
     });
@@ -23,7 +23,7 @@ module.exports = (options) => {
     router
         .route('/movies/:id')
         .get((req, res, next) => {
-            options.repo.getCustomerById(req.id).then((result) => {
+            options.repo.getMovieById(req.id).then((result) => {
                 return res.status(status.OK).json(result);
             }).catch(next);
         });
