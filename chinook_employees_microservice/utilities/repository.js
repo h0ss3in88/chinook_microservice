@@ -1,6 +1,7 @@
+/* eslint-disable one-var */
 const repository = (container) => {
-        const db = container.resolve('db'),
-            employees = db.employee,
+        const employees = container.resolve('db').employee;
+        const
             getAllEmployees = () => {
                 return new Promise((resolve, reject) => {
                     employees.find({}).then((result) => {

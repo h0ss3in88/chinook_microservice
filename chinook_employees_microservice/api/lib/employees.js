@@ -10,6 +10,7 @@ module.exports = (options) => {
         throw new Error('there is no repository');
     }
     router.get('/employees', (req, res, next) => {
+        console.log(req.container.resolve('repo'));
         options.repo.getAllEmployees().then((result) => {
             return res.status(status.OK).json(result);
         }).catch(next);

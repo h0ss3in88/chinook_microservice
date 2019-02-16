@@ -10,6 +10,7 @@ const http = require('http'),
     { connector } = require('./utilities/dbConnection');
 
 process.on('uncaughtException', (err) => {
+    console.log(err);
     debug(`Unhandled Exception ${err}`);
 });
 
@@ -29,7 +30,7 @@ mediator.on('db.ready', (container) => {
     connect(container)
         .then((repository) => {
             debug('repository created successfully .... ');
-            container.register('repo', asValue({ repository }));
+            container.register({ 'repo': asValue(repository) });
             mediator.emit('repository.ready', container);
         }).catch((err) => {
             debug(err);
@@ -57,7 +58,7 @@ if (cluster.isMaster) {
             let server = http.createServer(expressApp);
 
             server.listen(expressApp.get('port'), () => {
-                debug(`movies microservice is up and running | listening at ${server.address().address}:${server.address().port}`);
+                debug(`Employees microservice is up and running | listening at ${server.address().address}:${server.address().port}`);
             });
         }).catch((err) => {
             debug(err);
