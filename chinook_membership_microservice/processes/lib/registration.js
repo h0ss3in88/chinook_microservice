@@ -12,12 +12,10 @@ const { User } = require('../../models/user'),
         let duplicate;
 
         try {
-            duplicate = await args._repo.getUserByEmail(args.email);
+            duplicate = await args._repo.checkDuplicateEmail(args.email);
+            return duplicate;
         } catch (error) {
-            return true;
-        }
-        if (duplicate === null) {
-            return false;
+            throw error;
         }
     },
     _save = async(args) => {
@@ -27,9 +25,10 @@ const { User } = require('../../models/user'),
             user = new User(args._user);
 
         await user.generatePassword();
-        await _checkEmail();
         userId = await args._repo.getUsersCount();
+        console.log(userId);
         isDuplicate = await _checkEmail({ '_repo': args._repo, 'email': user.email });
+        console.log(isDuplicate);
         if (isDuplicate) {
             return Promise.reject(new Error('email has already exist'));
         }
@@ -53,6 +52,7 @@ class Registration {
             isValid = await _validate(this._user);
 
         if (isValid) {
+            console.log(true);
             result = await _save({ '_repo': this._repo, '_user': this._user });
 
             return result;

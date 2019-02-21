@@ -3,7 +3,7 @@ const http = require('http'),
     os = require('os'),
     debug = require('debug')('mem'),
     { EventEmitter } = require('events'),
-    app = require('./server'),
+    { start } = require('./server'),
     _ = require('lodash'),
     { connect } = require('./utils/repository'),
     { connector } = require('./utils/dbConnection'),
@@ -19,7 +19,7 @@ mediator.on('db.ready', (db) => {
             let _opt = { 'repo': repository };
 
             _.merge(_opt, config);
-            app.start(_opt).then((expressApp) => {
+            start(_opt).then((expressApp) => {
                 if (cluster.isMaster) {
                     debug('forking from master .... ');
                     for (let i = 0; i < os.cpus().length; i++) {
@@ -35,7 +35,7 @@ mediator.on('db.ready', (db) => {
                     let server = http.createServer(expressApp);
 
                     server.listen(expressApp.get('port'), () => {
-                        debug(`movies microservice is up and running | listening at ${server.address().address}:${server.address().port}`);
+                        debug(`Membership microservice is up and running | listening at ${server.address().address}:${server.address().port}`);
                     });
                 }
             }).catch((err) => {

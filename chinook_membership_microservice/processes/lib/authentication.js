@@ -4,7 +4,7 @@ const validator = require('validator'),
     { User } = require('../../models/user'),
     _validate = (args) => {
         return new Promise((resolve, reject) => {
-            if (!!args.email && !!args.password && validator.isEmail(args.email) && validator.isLength(args.password, { 'min': 6, 'max': 12 })) {
+            if (!!args.email && !!args.password && validator.isEmail(args.email) && validator.isLength(args.password, { 'min': 6, 'max': 20 })) {
                 return resolve(true);
             }
             return reject(new Error('invalid email or password'));
@@ -67,12 +67,25 @@ class Authentication {
     }
 
     async verifyToken(options) {
-        let token,verificationResult;
+        console.log(1);
+        let verificationResult = {};
 
         if (options.token === undefined || options.token === null || options.token.length === 0) {
             throw new Error('token required');
         }
+        try {
+            let user = await this._repo.getUserById(options.token.id);
 
+            if (user) {
+                verificationResult.user = user;
+                verificationResult.signal = true;
+                return verificationResult;
+            }
+            verificationResult.user = null;
+            verificationResult.signal = false;
+        } catch (error) {
+            throw error;
+        }
     }
     async start() {
         let result;

@@ -7,8 +7,18 @@ module.exports = (options) => {
     if (!options.repo) {
         throw new Error('there is no repository');
     }
+    router.post('/accounts/data', (req, res) => {
+        const { email } = req.body;
 
-    router.get('/accounts/profile', passport.authenticate('jwt'), (req, res) => {
+        return res.status(status.OK).json(email);
+    });
+    router.get('/accounts/verify', [ passport.authenticate('jwt', { 'session': false }) ], (req, res) => {
+        if (req.user) {
+            return res.status(status.ACCEPTED).send(true);
+        }
+        return res.status(status.UNAUTHORIZED).send(false);
+    });
+    router.get('/accounts/profile', [ passport.authenticate('jwt', { 'session': false }) ], (req, res) => {
         return res.json({
             'user': req.user,
             'message': 'secure with passport and json web token',
@@ -16,6 +26,7 @@ module.exports = (options) => {
         });
     });
     router.post('/accounts/login', async(req, res, next) => {
+        console.log(req.body);
         passport.authenticate('signIn', async(err, result, info) => {
             if (err) {
                 return next(err);

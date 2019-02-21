@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt'),
+const bcrypt = require('bcryptjs'),
     validator = require('validator'),
     _ = require('lodash');
 

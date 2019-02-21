@@ -134,6 +134,25 @@ const repository = (db) => {
                 });
             });
         };
+        const checkDuplicateEmail = (email) => {
+            return new Promise((resolve, reject) => {
+                db.select('2', (err, reply) => {
+                    if (err) {
+                        return reject(err);
+                    } else if (reply === 'OK') {
+                        db.get(`users:email:${email}`, (err, result) => {
+                            if (err) {
+                                return reject(err);
+                            } else if (result === null) {
+                                return resolve(false);
+                            } else if (result !== null && result !== undefined) {
+                                return resolve(true);
+                            }
+                        });
+                    }
+                });
+            });
+        };
         const getUserByFirstName = (firstName) => {
             return new Promise((resolve, reject) => {
                 db.find({ 'first_name': firstName }).then((results) => {
@@ -175,6 +194,7 @@ const repository = (db) => {
             removeUser,
             getAllUsers,
             getUserById,
+            checkDuplicateEmail,
             getUserByEmail,
             getUserByFirstName,
             getUserByLastName,

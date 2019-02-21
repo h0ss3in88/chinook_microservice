@@ -4,7 +4,7 @@ const express = require('express'),
 
 module.exports = () => {
     router
-        .route('/ping')
+        .route('/accounts/ping')
         .get((req, res) => {
             return res.status(status.OK).json({ 'ping': 'pong' });
         });

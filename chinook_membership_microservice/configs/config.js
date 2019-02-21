@@ -4,5 +4,5 @@ module.exports = {
     'pg_user': process.env.POSTGRES_USER || 'hussein',
     'pg_password': process.env.POSTGRES_PASS || '123456',
     'pg_db': process.env.POSTGRES_DATABASE || 'chinook',
-    'microPort': process.env.PORT || 4601
+    'microPort': process.env.PORT || 4602
 };

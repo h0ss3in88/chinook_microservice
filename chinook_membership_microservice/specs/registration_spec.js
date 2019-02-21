@@ -25,7 +25,8 @@ describe('Registration Integration test', () => {
 
     before(async() => {
         // reg = new Registration({ 'repo': repo, 'args': { 'email': 'test2@test.com', 'password': 'wIet$$&((dsf', 'confirm': 'wIet$$&((dsf' } });
-        reg = new Registration({ 'repo': repo, 'args': { 'email': 'test@test.com', 'password': 'wet$$&((dsf', 'confirm': 'wet$$&((dsf' } });
+        // reg = new Registration({ 'repo': repo, 'args': { 'email': 'test@test.com', 'password': 'wet$$&((dsf', 'confirm': 'wet$$&((dsf' } });
+        reg = new Registration({ 'repo': repo, 'args': { 'email': 'mohammad.hussein.taherian@gmail.com', 'password': 'Hussein@123456', 'confirm': 'Hussein@123456' } });
         await reg.start().then((res) => {
             result = res[ 0 ];
         }).catch((err) => {

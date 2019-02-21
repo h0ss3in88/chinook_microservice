@@ -11,11 +11,11 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => {
-    return !validator.isEmpty(password) && !!validator.isLength(password, { 'min': 6, 'max': 12 });
+    return !validator.isEmpty(password) && !!validator.isLength(password, { 'min': 6, 'max': 20 });
 };
 
 const validateConfirmPassword = (confirm, password) => {
-    return !validator.isEmpty(confirm) && !!validator.isLength(confirm, { 'min': 6, 'max': 12 }) && !!validator.equals(confirm, password);
+    return !validator.isEmpty(confirm) && !!validator.isLength(confirm, { 'min': 6, 'max': 20 }) && !!validator.equals(confirm, password);
 };
 
 module.exports = Object.assign({}, { validateUser });

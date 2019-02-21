@@ -1,11 +1,11 @@
 {
   "name": "chinook_membership_microservice",
   "version": "1.0.0",
-  "description": "",
+  "description": "use 'bcrypt': '^2.0.1' for development at windows platform",
   "main": "index.js",
   "scripts": {
-    "windowsDebug": "@powershell -Command $env:DEBUG='emp';./node_modules/.bin/nodemon ./src/index.js",
-    "start": "./node_modules/.bin/nodemon ./src/index.js",
+    "windowsDebugMembership": "@powershell -Command $env:DEBUG='mem';./node_modules/.bin/nodemon ./src/index.js",
+    "start": "DEBUG='mem' ./node_modules/.bin/nodemon ./src/index.js",
     "test": "./node_modules/.bin/mocha ./specs"
   },
   "keywords": [],
@@ -13,10 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.1",
-    "bcrypt": "^2.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cluster": "^0.7.7",
     "compression": "^1.7.3",
+    "cors": "^2.8.5",
     "debug": "^4.1.1",
     "errorhandler": "^1.5.0",
     "express": "^4.16.4",

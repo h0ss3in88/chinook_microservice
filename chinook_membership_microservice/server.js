@@ -4,6 +4,8 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     compression = require('compression'),
     responseTime = require('response-time'),
+    passport = require('passport'),
+    cors = require('cors'),
     errorHandler = require('errorhandler'),
     api = require('./api'),
     passportConfig = require('./configs/passportConfig'),
@@ -18,12 +20,15 @@ const express = require('express'),
             const app = express();
 
             app.use(logger('dev'));
-            app.use(bodyParser.json());
+            app.use(bodyParser.json({ 'type': 'application/json' }));
             app.use(bodyParser.urlencoded({ 'extended': true }));
             app.use(compression());
             app.use(responseTime());
+            app.use(cors());
+            app.set('x-powered-by', false);
             app.set('port', options.microPort);
             app.get('/favicon.ico', (req, res) => res.status(204));
+            app.use(passport.initialize());
             passportConfig(options.repo);
             api(app, options);
             app.use((req, res, next) => {

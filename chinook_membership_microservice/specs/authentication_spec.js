@@ -22,7 +22,7 @@ describe('Authentication Integration Test', () => {
     let options = {}, app;
 
     before(async() => {
-        options.micro_port = 4601;
+        options.microPort = 4602;
         options.repo = repo;
         try {
             app = await start(options);
@@ -30,12 +30,35 @@ describe('Authentication Integration Test', () => {
             throw error;
         }
     });
+    describe('verification', () => {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJlbWFpbCI6Im1vaGFtbWFkLmh1c3NlaW4udGFoZXJpYW5AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTQ5ODMyNTA2LCJleHAiOjE1NDk4NzU3MDZ9.57GXeBlV5tnVOt2ZiKqF4q6q1jUrjgW2e2cXnCj9CRg';
+
+        // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJlbWFpbCI6Im1vaGFtbWFkLmh1c3NlaW4udGFoZXJpYW5AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTQ5ODMyNTA2LCJleHAiOjE1NDk4NzU3MDZ9.57GXeBlV5tnVOt2ZiKqF4q6q1jUrjgW2e2cXnCj9CRg
+        it('authenticate with valid token ', async() => {
+            try {
+                await supertest(app)
+                    .get('/api/accounts/profile')
+                    .set('Authorization', `Bearer ${token}`)
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .then((response) => {
+                        console.log(response.body);
+                        assert.ok(response.body !== null);
+                    });
+            } catch (error) {
+                console.log(error);
+                assert.ok(error === null || error === undefined, error);
+                throw error;
+            }
+        });
+    });
     describe('authentication with expressJS api', () => {
         it('authenticate with valid inputs ', async() => {
             try {
                 await supertest(app)
                     .post('/api/accounts/login')
-                    .send({ 'email': 'test@test.com', 'password': 'wet$$&((dsf' })
+                    .send({ 'email': 'mohammad.hussein.taherian@gmail.com', 'password': 'Hussein@123456' })
                     .set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
                     .expect(200)

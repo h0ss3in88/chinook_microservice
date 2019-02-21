@@ -1,7 +1,7 @@
 /* eslint-disable no-undef,no-console,no-shadow,one-var */
 const redis = require('redis'),
     assert = require('assert'),
-    bcrypt = require('bcrypt'),
+    bcrypt = require('bcryptjs'),
     { User } = require('../models/user');
 let _user;
 
@@ -142,11 +142,11 @@ describe('redis client behavior', () => {
 
             console.log(result);
             assert.ok(await result === true);
-            await client.send_command('hdel', [ 'users:2', 'id', 'email', 'hashedPassword', 'createdAt', 'modifiedAt', 'viewCount', 'lastLoginAt', 'isActive' ], (err, response) => {
+            await client.send_command('hdel', [ 'users:1', 'id', 'email', 'hashedPassword', 'createdAt', 'modifiedAt', 'viewCount', 'lastLoginAt', 'isActive' ], (err, response) => {
                 console.log(err);
                 console.log(response);
                 assert.ok(err === null || err === undefined, err);
-                assert.ok(response === 7, response);
+                assert.ok(response === 8, response);
             });
         } catch (error) {
             throw error;

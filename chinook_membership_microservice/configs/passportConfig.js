@@ -11,6 +11,7 @@ module.exports = (repo) => {
         'passwordField': 'password'
     }, async(email, password, confirmation, done) => {
         try {
+            console.log(email, password, confirmation);
             let reg = new Registration({ 'repo': repo, 'args': { 'email': email, 'password': password, 'confirm': confirmation } }),
                 result = await reg.start();
 
@@ -37,12 +38,20 @@ module.exports = (repo) => {
 
     passport.use(new JwtStrategy({
         'secretOrKey': 'xAuthSybilTokenSecret',
-        'jwtFromRequest': ExtractJwt.fromUrlQueryParameter('auth_token')
-    }, async(token, done) => {
+        'jwtFromRequest': ExtractJwt.fromAuthHeaderAsBearerToken()
+    }, async(jwtPayload, done) => {
+        console.log(jwtPayload);
         try {
-            done(null, token);
+            let _auth = new Authentication({ 'repo': repo }),
+                result = await _auth.verifyToken({ 'token': jwtPayload });
+
+            if (result.signal === true) {
+                return done(null, result.user);
+            } else if (result.signal === false ) {
+                return done(null, false);
+            }
         } catch (error) {
-            done(error);
+            done(error, false);
         }
     }));
 };
